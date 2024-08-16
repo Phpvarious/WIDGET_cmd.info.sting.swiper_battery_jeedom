@@ -3,13 +3,14 @@
   Widget name : cmd.info.string.swiper.battery_jeedom
   Github : https://phpvarious.github.io/documentation/widget/fr_FR/widget_scenario/swiper_battery_jeedom/
   Author : Phpvarious
+  Compatibility : 4.4 Full js
     Création : 09/04/2022
-    Last Uptade : 09/03/2023
+    Last Uptade : 16/08/2024 19h30
   -->
   <template>
     <div>------------------- WIDGET ----------------------------</div>
     <div>effect : 0 à 5 (Défaut : 0 -> coverflow, 1 -> cube, 2 -> flip, 3 -> fade, 4 -> cards, 5 -> creative)</div>
-    <div>paginationType : 0 a 5, type de pagination (défaut : 1 -> Bullets, 0 -> masquée, 2 -> dynamicBullets, 3 -> progressbar, 4 -> fraction)</div>
+    <div>paginationType : 0 a 4, type de pagination (défaut : 0 -> masquée, 1 -> Bullets, 2 -> dynamicBullets, 3 -> progressbar, 4 -> fraction)</div>
     <div>swiperButton : 0 = Masquer les flêches de navigation (défaut : 1 = afficher)</div>
     <div>grabCursor : cursor grab sur les tuiles (défaut : 1 = activer, 0 = désactiver)</div>
     <div>loop : boucle sur le widget (défaut : 0 = désactiver, 1 = activer)</div>
@@ -123,51 +124,52 @@
     .mySwiper#id# .swiper-pagination-clickable .swiper-pagination-bullet {
     cursor: pointer !important;
     }
-    .mySwiper#id# .eqLogic-widget{
+    .mySwiper#id# .eqLogic-widget#uid#{
       height: 150px !important;
       width: 210px !important;
       background-color: var(--background-tuile#id#) !important;
       margin: 0px 0px 0px 0px !important;
+      color: var(--txt-color) !important;
     }
-    .mySwiper#id# .eqLogic-widget .widget-name{
+    .mySwiper#id# .eqLogic-widget#uid# .widget-name{
       color: var(--title-color#id#);
       line-height: 1.42;
     }
-    .mySwiper#id# .eqLogic-widget.critical .widget-name {
+    .mySwiper#id# .eqLogic-widget#uid#.critical .widget-name {
       background-color: var(--color-critical#id#) !important;
     }
-    .mySwiper#id# .eqLogic-widget.good .widget-name {
+    .mySwiper#id# .eqLogic-widget#uid#.good .widget-name {
       background-color: var(--color-good#id#) !important; 
     }
-    .mySwiper#id# .eqLogic-widget.warning .widget-name {
+    .mySwiper#id# .eqLogic-widget#uid#.warning .widget-name {
       background-color: var(--color-warning#id#) !important; 
     }
-    .mySwiper#id# .eqLogic-widget .widget-name .name {
+    .mySwiper#id# .eqLogic-widget#uid# .widget-name .name {
       display: block;
       max-height: 24px !important;
       overflow: hidden !important;
       font-size: 16px !important;
     }
-    .mySwiper#id# .eqLogic-widget .widget-name .object {
+    .mySwiper#id# .eqLogic-widget#uid# .widget-name .object {
       opacity: .5;
       font-size: 14px;
     }
-    .mySwiper#id# .eqLogic-widget.critical .jeedom-batterie i {
+    .mySwiper#id# .eqLogic-widget#uid#.critical .jeedom-batterie i {
       color: var(--color-battery-critical#id#);
     }
-    .mySwiper#id# .eqLogic-widget.good .jeedom-batterie i {
+    .mySwiper#id# .eqLogic-widget#uid#.good .jeedom-batterie i {
       color: var(--color-battery-good#id#);
     }
-    .mySwiper#id# .eqLogic-widget .jeedom-batterie i {
+    .mySwiper#id# .eqLogic-widget#uid# .jeedom-batterie i {
       vertical-align: middle;
       font-size: 75px !important;
     }
-    .mySwiper#id# .eqLogic-widget .jeedom-batterie {
+    .mySwiper#id# .eqLogic-widget#uid# .jeedom-batterie {
       color: var(--link-color);
       margin-top: -12px;
       margin-bottom: -20px;
     }
-    .mySwiper#id# .eqLogic-widget .jeedom-batterie span {
+    .mySwiper#id# .eqLogic-widget#uid# .jeedom-batterie span {
       position: relative;
       display: inline-block;
       font-family: "Roboto";
@@ -176,18 +178,24 @@
       font-weight: bold;
       top: 3px;
     }
+    .mySwiper#id# .eqLogic-widget#uid# span.batteryTime i {
+      color: var(--link-color) !important;
+    }
     .mySwiper#id# .pluginName {
       padding-left: 5px;
       font-size: 14px;
       font-weight: bold;
     }
-    .mySwiper#id# .eqLogic-widget .batteryTime {
+    .mySwiper#id# .eqLogic-widget#uid# .batteryTime {
       clear: left;
       padding-left: 5px;
       font-size: 12px;
     }
-    .mySwiper#id# .eqLogic-widget .batteryTime i {
+    .mySwiper#id# .eqLogic-widget#uid# .batteryTime i {
       font-size: 16px !important;
+    }
+    .mySwiper#id# .eqLogic-widget#uid# {
+      border-radius: var(--border-radius) !important;
     }
   </style>
   <!-- Swiper -->
@@ -285,7 +293,7 @@
         },
         success: function (htmlBattery) {
           for (j in htmlBattery) {
-            if (!arrayExeptEq.includes(htmlBattery[j].id)) cmd.querySelector('.insert#id#').innerHTML = cmd.querySelector('.insert#id#').innerHTML + '<div class="swiper-slide">'+htmlBattery[j].html+'</div>'
+            if (!arrayExeptEq.includes(htmlBattery[j].id)) cmd.querySelector('.insert#id#').innerHTML = cmd.querySelector('.insert#id#').innerHTML + '<div class="swiper-slide">'+htmlBattery[j].html.replace("eqLogic eqLogic-widget", 'eqLogic#uid# eqLogic-widget#uid#')+'</div>'
           }
         }
       })
